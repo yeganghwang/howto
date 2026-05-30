@@ -35,3 +35,14 @@ openssl rsa -pubin -in public.pem -modulus -noout
 `diff` 명령을 사용한다. diff 명령은 두 내용이 일치하면 아무런 출력도 하지 않고(return 0), 일치하지 않으면 일치하지 않는 부분을 출력하는 명령어이다. (return 1)
 
 따라서 성공적으로 실행되었다면 return 1, "match"를 출력하고, 그렇지 않으면 "not match"를 출력하게 된다.
+
+# 부록
+모듈러스 값을 직접 확인하기에는 내용이 긴데, 이를 `md5`로 해시하여 짧게 해시된 값을 확인하면 보기 편하다.
+``` bash
+$ openssl rsa -in private.pem -modulus -noout | openssl md5
+
+$ openssl rsa -pubin -in public.pem -modulus -noout | openssl md5
+```
+
+### 주의사항
+확인한 값은 `MODULUS=...`와 같이 'MODULUS' 문자열을 포함한 값이기 때문에, 실제 모듈러스 값을 저장하거나 해시가 필요한 경우에는 반드시 해당 문자열을 제거하여야 한다.
