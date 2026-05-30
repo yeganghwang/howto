@@ -28,20 +28,22 @@ openssl rsa -pubin -in public.pem -modulus -noout
 ```
 (diff <(openssl rsa -in [비밀키 경로] -modulus -noout) <(openssl rsa -pubin -in [공개키 경로] -modulus -noout)) > /dev/null && echo "match" || echo "not match"
 ```
+**주의**: `<()` (프로세스 치환)은 일부 쉘에서 작동하지 않을 수 있다.
+
 결과
 - 두 키가 서로 쌍인 경우: `match`
 - 두 키가 서로 쌍이 아닌 경우: `not match`
 
 `diff` 명령을 사용한다. diff 명령은 두 내용이 일치하면 아무런 출력도 하지 않고(return 0), 일치하지 않으면 일치하지 않는 부분을 출력하는 명령어이다. (return 1)
 
-따라서 성공적으로 실행되었다면 return 1, "match"를 출력하고, 그렇지 않으면 "not match"를 출력하게 된다.
+따라서 성공적으로 실행되었다면 return 0, "match"를 출력하고, 그렇지 않으면 "not match"를 출력하게 된다.
 
 # 부록
 모듈러스 값을 직접 확인하기에는 내용이 긴데, 이를 `md5`로 해시하여 짧게 해시된 값을 확인하면 보기 편하다.
 ``` bash
-$ openssl rsa -in private.pem -modulus -noout | openssl md5
+$ openssl rsa -in private.pem -modulus -noout | md5sum
 
-$ openssl rsa -pubin -in public.pem -modulus -noout | openssl md5
+$ openssl rsa -pubin -in public.pem -modulus -noout | md5sum
 ```
 
 ### 주의사항
